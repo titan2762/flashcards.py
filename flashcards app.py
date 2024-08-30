@@ -50,6 +50,10 @@ def maincards(flashcards):
                 # prompt
                 answer = input("What is the answer? (type 'quit' to exit) >> ")
                 
+                if answer.lower() == "rev":
+                    print("going to review incorrect answers")
+                    incorrectcards()
+
                 if answer.lower() == "quit":
                     print("Quitting the flashcards program.")
                     return flashcard_incorrect, correct_answers # Exits the function
@@ -74,8 +78,56 @@ def maincards(flashcards):
                 continue
 
 def incorrectcards():
-    print("End")
+    global flashcard_incorrect, correct_answers, total_displayed
+    correct_answers = 0
+    total_displayed = 0
+    if not flashcard_incorrect:
+        print("There are no incorrect cards to review.")
+        return
+    while True:
+            total_cards_incorrect = len(flashcard_incorrect) - 1
+            displayed = flashcard_incorrect[r.randint(0, total_cards_incorrect)]  # Randomly pick a card from incorrect ones
 
+            # Find the index of the displayed card in the original flashcards list
+            for i, card in enumerate(flashcards):
+                if card == displayed:
+                    break
+
+            print(displayed)
+            print(flashcard_answers[i])  # Use the correct index to get the answer
+            total_displayed += 1
+                    # add logic to find same one in flashcards list
+                    
+                # find that cards answer.
+                #if same pass
+
+                # prompt
+            answer = input("What is the answer? (type 'quit' to exit) >> ")
+                
+            if answer.lower() == "main":
+                print("going to main study")
+                maincards(flashcards)
+
+            if answer.lower() == "quit":
+                print("Quitting the flashcards program.")
+                return flashcard_incorrect, correct_answers # Exits the function
+
+            if answer.lower() == "pass":
+                total_displayed -= 1
+                print("Passing\n")
+                continue
+
+                # correct answer sequence
+            if flashcard_answers[i] == answer:
+                correct_answers += 1
+                print("Good job!\n")
+                continue
+                
+                # incorrect answer sequence
+            else:
+                print("Nice try\n")
+                continue                
+            
 maincards(flashcards)
 print(correct_answers)
 print(flashcard_incorrect)

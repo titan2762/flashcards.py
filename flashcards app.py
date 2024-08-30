@@ -13,8 +13,6 @@
 
 import random as r
 
-stop = False
-
 flashcards = [
     "test Q1\ntest A1\ntest A2\ntest A3\ntest A4\n",
     "test Q2\ntest A1\ntest A2\ntest A3\ntest A4\n",
@@ -23,55 +21,47 @@ flashcards = [
 
 flashcard_answers = ["1", "2", "3"]
 
-flashcard_incorrect = ["placeholder"]
-
+flashcard_incorrect = []
 
 def maincards(flashcards):
-    index = -1
-    correct_answers = 0
     while True:
-        global flashcard_incorrect, stop
+        global flashcard_incorrect, correct_answers
         total_cards = len(flashcards) - 1
-        displayed = flashcards[r.randint(0, total_cards)]# randomly picks a card to be displayed from total number of cards
+        displayed = flashcards[r.randint(0, total_cards)]  # randomly picks a card to be displayed from total number of cards
         print(displayed)
 
         index = -1
         correct_answers = 0
 
-        
-
-
-
-        for card in flashcards: #goes through cards and counts which card it is at
+        for card in flashcards:  # goes through cards and counts which card it is at
             index += 1
             if card == displayed:
                 print(flashcard_answers[index])
                 
-                #prompt
-                answer = input("what is the answer? >> ")
+                # prompt
+                answer = input("What is the answer? (type 'quit' to exit) >> ")
                 
+                if answer.lower() == "quit":
+                    print("Quitting the flashcards program.")
+                    return flashcard_incorrect, correct_answers # Exits the function
 
-
-                    # correct answer sequence
+                # correct answer sequence
                 if flashcard_answers[index] == answer:
                     correct_answers += 1
-                    print("good shit my guy\n")
+                    print("Good job!\n")
                     continue
                 
                 # incorrect answer sequence
-                elif flashcard_answers[index] != answer:
+                else:
                     flashcard_incorrect.append(displayed)
-                    print("nice try\n")
-                    continue
-
-                if answer.lower() == 'quit':
-                    print("Quitting the flashcards program.")
-                    stop = True
+                    print("Nice try\n")
+                    continue                
             else:
                 continue
 
 def end():
-    print("end")
+    print("End")
 
 maincards(flashcards)
+print(correct_answers)
 print(flashcard_incorrect)

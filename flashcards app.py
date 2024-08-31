@@ -10,11 +10,11 @@
 # ---- option to replay questions we got wrong.
     # ---- assign to new list (flashcard_incorrect)
     # ---- if "review" is entered switch what list is being shown from maincards to incorrect cards
-# if question has been answered correctly twice. do not show again
-    # put in new list for answer right once.
-    # if correct and already in 1 right list (try/except: .find()) 
-    # put in new list for answer right twice
-    # if question in 2 right list do not show
+# ---- if question has been answered correctly twice. do not show again
+    # ---- put in new list for answer right once.
+    # ---- if correct and already in 1 right list (try/except: .find()) 
+    # ---- put in new list for answer right twice
+    # ---- if question in 2 right list do not show
         # if all == do not show. end with congrats message
 
 import random as r
@@ -38,7 +38,11 @@ def maincards(flashcards):
     correct_answers = 0
     total_displayed = 0
     while True:
+
         total_cards = len(flashcards) - 1
+        if total_cards == len(correct_answers_crate2):
+            print("\n\ncongrats!! all done.\n")
+            break
         displayed = flashcards[r.randint(0, total_cards)]  # randomly picks a card to be displayed from total number of cards
         print(displayed)
 
@@ -47,6 +51,7 @@ def maincards(flashcards):
         for card in flashcards:  # goes through cards and counts which card it is at
             index += 1
             if card == displayed:
+                
                 if card in correct_answers_crate2:
                     continue
                 else:

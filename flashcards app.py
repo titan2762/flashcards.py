@@ -42,7 +42,17 @@ def maincards(flashcards):
         total_cards = len(flashcards) - 1
         if total_cards == len(correct_answers_crate2):
             print("\n\ncongrats!! all done.\n")
-            break
+            while True:
+                while back_to_rev != "y" or "n":
+                    back_to_rev = input("would you like to go to review? (Y/N)")
+                    if back_to_rev.lower() == "Y":
+                        incorrectcards()
+                    elif back_to_rev.lower() == "N":
+                        print("no? damn")
+                        quit
+                    else:
+                        print("please enter a valid input")
+                        continue
         displayed = flashcards[r.randint(0, total_cards)]  # randomly picks a card to be displayed from total number of cards
         print(displayed)
 
@@ -96,6 +106,10 @@ def maincards(flashcards):
                 continue
 
 def incorrectcards():
+
+    incorrectcards_correct_answers_crate1 = []
+    incorrectcards_correct_answers_crate2 = []
+
     global flashcard_incorrect, correct_answers, total_displayed
     correct_answers = 0
     total_displayed = 0
@@ -104,46 +118,70 @@ def incorrectcards():
         return
     while True:
             total_cards_incorrect = len(flashcard_incorrect) - 1
+            if total_cards_incorrect == len(incorrectcards_correct_answers_crate2):
+                print("\n\ncongrats!! all done.\n")
+                while back_to_main != "y" or "n":
+                    back_to_main = input("would you like to go back to main? (Y/N)")
+                    if back_to_main.lower() == "Y":
+                        maincards()
+                    elif back_to_main.lower() == "N":
+                        print("no? damn")
+                        quit
+                    else:
+                        print("please enter a valid input")
+                        continue
+                break
             displayed = flashcard_incorrect[r.randint(0, total_cards_incorrect)]  # Randomly pick a card from incorrect ones
 
             # Find the index of the displayed card in the original flashcards list
             for i, card in enumerate(flashcards):
                 if card == displayed:
                     break   # add logic to find same one in flashcards list
-
-            print(displayed)
-            print(flashcard_answers[i])
-            answer_for_incorrect = flashcard_answers[i]  # Use the correct index to get the answer
-            total_displayed += 1
+                if card in incorrectcards_correct_answers_crate2:
+                    continue
+                else:
+                    print(displayed)
+                    print(flashcard_answers[i])
+                    answer_for_incorrect = flashcard_answers[i]  # Use the correct index to get the answer
+                    total_displayed += 1
 
                 # prompt
-            answer = input("... IN REV ...What is the answer? (type 'quit' to exit) >> ")
+                    answer = input("... IN REV ...What is the answer? (type 'quit' to exit) >> ")
                 
-            if answer.lower() == "main":
-                print("going to main study")
-                maincards(flashcards)
+                if answer.lower() == "main":
+                    print("going to main study")
+                    maincards(flashcards)
 
-            if answer.lower() == "quit":
-                total_displayed -= 1
-                print(correct_answers)
-                print(total_displayed)
-                print("Quitting the flashcards program.")
-                return correct_answers # Exits the function
+                if answer.lower() == "quit":
+                    total_displayed -= 1
+                    print(correct_answers)
+                    print(total_displayed)
+                    print("Quitting the flashcards program.")
+                    return correct_answers # Exits the function
 
-            if answer.lower() == "pass":
-                total_displayed -= 1
-                print("Passing\n")
-                continue
+                if answer.lower() == "pass":
+                    total_displayed -= 1
+                    print("Passing\n")
+                    continue
 
                 # correct answer sequence
-            if answer_for_incorrect == answer:
-                correct_answers += 1
-                print("Good job!\n")
-                continue
+                if answer_for_incorrect == answer:
+                    correct_answers += 1
+                    print("Good job!\n")
+                    if card in incorrectcards_correct_answers_crate1:
+                        incorrectcards_correct_answers_crate2.append(card)
+                    else:
+                        incorrectcards_correct_answers_crate1.append(card)
+                        continue
+                
+                    continue
                 
                 # incorrect answer sequence
-            else:
-                print("Nice try\n")
-                continue                
+                else:
+                    print("Nice try\n")
+                    continue                
+
+
+
 
 maincards(flashcards)

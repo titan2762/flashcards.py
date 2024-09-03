@@ -42,6 +42,7 @@ def maincards(flashcards):
         total_cards = len(flashcards) - 1
         if total_cards == len(correct_answers_crate2):
             print("\n\ncongrats!! all done.\n")
+            back_to_rev = ""
             while True:
                 while back_to_rev != "y" or "n":
                     back_to_rev = input("would you like to go to review? (Y/N)")
@@ -116,20 +117,22 @@ def incorrectcards():
     if not flashcard_incorrect:
         print("There are no incorrect cards to review.")
         return
-    while True:
-            total_cards_incorrect = len(flashcard_incorrect) - 1
-            if total_cards_incorrect == len(incorrectcards_correct_answers_crate2):
-                print("\n\ncongrats!! all done.\n")
-                while back_to_main != "y" or "n":
-                    back_to_main = input("would you like to go back to main? (Y/N)")
-                    if back_to_main.lower() == "Y":
-                        maincards()
-                    elif back_to_main.lower() == "N":
-                        print("no? damn")
-                        quit
-                    else:
-                        print("please enter a valid input")
-                        continue
+    
+    total_cards_incorrect = len(flashcard_incorrect) - 1
+    if total_cards_incorrect == len(incorrectcards_correct_answers_crate2):
+        print("\n\ncongrats!! all done.\n")
+        while True:
+            back_to_main = ""
+            while back_to_main != "y" or "n":
+                back_to_main = input("would you like to go back to main? (Y/N)")
+                if back_to_main.lower() == "Y":
+                    maincards()
+                elif back_to_main.lower() == "N":
+                    print("no? damn")
+                    quit
+                else:
+                    print("please enter a valid input")
+                    continue
                 break
             displayed = flashcard_incorrect[r.randint(0, total_cards_incorrect)]  # Randomly pick a card from incorrect ones
 
